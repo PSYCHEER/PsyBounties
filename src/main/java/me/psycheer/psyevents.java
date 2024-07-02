@@ -5,6 +5,7 @@ import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -32,7 +33,7 @@ public class psyevents implements Listener{
         if(config.getBoolean("alerts.enabled", true)){
             if(config.getStringList("enabled-worlds").contains(player.getLocation().getWorld().getName())) {
                 if(alert != null) {
-                    sendAlert(player, alert, event);
+                    sendAlert(player, alert, event, false);
                 }else{
                     log.error("Disable alerts or fill out join-message!");
                 }
@@ -40,13 +41,17 @@ public class psyevents implements Listener{
         }
     }
 
-    public void sendAlert(Player player, String alert, PlayerJoinEvent event){
+    public void sendAlert(Player player, String alert, PlayerJoinEvent event, boolean toPlayer){
         alert = hex(alert);
         alert = alert.replace("%PLAYER%", player.getName());
-        Component joinMessage = LegacyComponentSerializer.legacyAmpersand().deserialize(alert);
+        //Component joinMessage = LegacyComponentSerializer.legacyAmpersand().deserialize(alert);
         //psybounties.audience.sendMessage(joinMessage);
-
-        player.sendMessage(alert);
+        for(Player others : Bukkit.getOnlinePlayers()){
+            if(!others.getUniqueId().equals(player.getUniqueId()))
+                others.sendMessage(alert);
+        }
+        if(toPlayer)
+            player.sendMessage(alert);
     }
 
     public String hex(String message) {
