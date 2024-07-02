@@ -1,0 +1,10 @@
+alerts:
+  enabled: true
+  # Any message is configurable and supports legacy colors or HEX code colors in this format <#XXXXXX>
+  # Current usable placeholders are:
+  # %PLAYER% - shows the player name
+  join-message: "&6Hey! Player &r%PLAYER% <#00AAFF>just <#353535>joined with &4bounty on his head!"
+enabled-worlds:
+  - world
+  - world_nether
+  - world_the_end

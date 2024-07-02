@@ -1,0 +1,8 @@
+name: PsyBounties
+version: '${project.version}'
+main: me.psycheer.psybounties
+author: PSYCHEER
+api-version: '1.21'
+depend:
+  - Vault
+load: STARTUP
