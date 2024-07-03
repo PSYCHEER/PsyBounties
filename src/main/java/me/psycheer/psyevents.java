@@ -15,6 +15,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.Plugin;
 
 import java.awt.*;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -25,33 +26,34 @@ public class psyevents implements Listener{
     Plugin main = psybounties.instance;
 
     @EventHandler
-    public void OnPlayerJoin(PlayerJoinEvent event){
+    public void OnPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         FileConfiguration config = main.getConfig();
         String alert = config.getString("alerts.join-message");
+        String warning = config.getString("alerts.warning-message");
         //String alert = hex(message);
-        if(config.getBoolean("alerts.enabled", true)){
-            if(config.getStringList("enabled-worlds").contains(player.getLocation().getWorld().getName())) {
-                if(alert != null) {
+        if (config.getBoolean("alerts.enabled", true)) {
+            if (config.getStringList("enabled-worlds").contains(player.getLocation().getWorld().getName())) {
+                if (alert != null) {
                     sendAlert(player, alert, event, false);
-                }else{
+                    sendAlert(player, warning, event, true);
+                } else {
                     log.error("Disable alerts or fill out join-message!");
                 }
             }
         }
     }
 
-    public void sendAlert(Player player, String alert, PlayerJoinEvent event, boolean toPlayer){
+    public void sendAlert(Player player, String alert, PlayerJoinEvent event, boolean toPlayer) {
         alert = hex(alert);
         alert = alert.replace("%PLAYER%", player.getName());
-        //Component joinMessage = LegacyComponentSerializer.legacyAmpersand().deserialize(alert);
-        //psybounties.audience.sendMessage(joinMessage);
-        for(Player others : Bukkit.getOnlinePlayers()){
-            if(!others.getUniqueId().equals(player.getUniqueId()))
-                others.sendMessage(alert);
+
+        if(toPlayer){
+            String uuid = player.getUniqueId().toString();
+            if(Bukkit.getPlayer(UUID.fromString(uuid)).equals(player.getUniqueId().toString())){
+                //player.send
+            }
         }
-        if(toPlayer)
-            player.sendMessage(alert);
     }
 
     public String hex(String message) {

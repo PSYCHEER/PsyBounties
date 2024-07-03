@@ -3,7 +3,10 @@ alerts:
   # Any message is configurable and supports legacy colors or HEX code colors in this format <#XXXXXX>
   # Current usable placeholders are:
   # %PLAYER% - shows the player name
+  #join-message - All online players, except joining player, will receive a message if player have a bounty on them
   join-message: "&6Hey! Player &r%PLAYER% <#00AAFF>just <#353535>joined with &4bounty on his head!"
+  #warning-message - Only joining player will receive a warning when it's a bounty set on his head
+  warning-message: "&4WARNING! <#FFAA00>You have a bounty on &ayour head!"
 enabled-worlds:
   - world
   - world_nether
